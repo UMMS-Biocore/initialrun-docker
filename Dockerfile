@@ -26,4 +26,7 @@ RUN apt-get -y autoremove
 RUN cd /usr/bin && wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2 && \
     tar -vxjf samtools-1.9.tar.bz2 && cd samtools-1.9 && make
 
+### AWS CLI
+RUN pip install awscli==1.16.170
+
 RUN echo "DONE!"
