@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER Onur Yukselen <onur.yukselen@umassmed.edu>
 
-ENV PATH="/bin:/sbin:/data/sratoolkit.2.9.6-1-ubuntu64/bin:${PATH}"
+ENV PATH="/bin:/sbin:/usr/bin/samtools-1.9:/usr/bin/sratoolkit.2.9.6-1-ubuntu64/bin:${PATH}"
 
 RUN apt-get update
 RUN apt-get -y upgrade
@@ -12,10 +12,10 @@ RUN apt-get -y install unzip libsqlite3-dev libbz2-dev libssl-dev python python-
 
 ### SRA-toolkit
 RUN mkdir -p /data /project /nl /share
-RUN cd /data && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.6-1/sratoolkit.2.9.6-1-ubuntu64.tar.gz
+RUN cd /usr/bin && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.6-1/sratoolkit.2.9.6-1-ubuntu64.tar.gz
 RUN tar -xvzf sratoolkit.2.9.6-1-ubuntu64.tar.gz
      
-###S3CMD
+### S3CMD
 RUN apt-get -y upgrade
 RUN apt-get -y install python-setuptools
 RUN wget http://netix.dl.sourceforge.net/project/s3tools/s3cmd/1.6.0/s3cmd-1.6.0.tar.gz
@@ -23,4 +23,11 @@ RUN tar xvfz s3cmd-1.6.0.tar.gz
 RUN cd s3cmd-1.6.0
 RUN python setup.py install
 RUN apt-get -y autoremove
+
+### Samtools
+RUN cd /usr/bin
+RUN wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+RUN tar -vxjf samtools-1.9.tar.bz2
+RUN cd samtools-1.9 && make
+
 RUN echo "DONE!"
