@@ -30,4 +30,11 @@ RUN cd /usr/bin && wget https://github.com/samtools/samtools/releases/download/1
 ### AWS CLI
 RUN pip install awscli==1.16.170
 
+### gcloud gsutils
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
+RUN mkdir -p /usr/local/gcloud \
+  && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+  && /usr/local/gcloud/google-cloud-sdk/install.sh
+ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+
 RUN echo "DONE!"
