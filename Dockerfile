@@ -19,6 +19,7 @@ RUN cd /usr/bin && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.0/sratoo
 ### S3CMD
 RUN apt-get -y upgrade
 RUN apt-get -y install python-setuptools
+RUN pip install python-dateutil==2.2
 RUN cd /usr/bin && wget http://netix.dl.sourceforge.net/project/s3tools/s3cmd/1.6.0/s3cmd-1.6.0.tar.gz && \
     tar xvfz s3cmd-1.6.0.tar.gz && cd s3cmd-1.6.0 && python setup.py install
 RUN apt-get -y autoremove
