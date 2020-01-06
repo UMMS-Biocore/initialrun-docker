@@ -8,7 +8,8 @@ RUN apt-get -y upgrade
 RUN apt-get dist-upgrade
 RUN apt-get -y install unzip libsqlite3-dev libbz2-dev libssl-dev python python-dev  liblzma-dev \
     python-pip git libxml2-dev software-properties-common wget tree vim sed make libncurses5-dev libncursesw5-dev\
-    subversion g++ gcc gfortran libcurl4-openssl-dev curl zlib1g-dev build-essential libffi-dev  python-lzo libxml-libxml-perl
+    subversion g++ gcc gfortran libcurl4-openssl-dev curl zlib1g-dev build-essential libffi-dev  python-lzo \
+    libxml-libxml-perl jq
 
 ### SRA-toolkit
 RUN mkdir -p /data /project /nl /share
