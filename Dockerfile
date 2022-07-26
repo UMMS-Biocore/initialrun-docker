@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 MAINTAINER Onur Yukselen <onur.yukselen@umassmed.edu>
 
 ENV PATH="/bin:/sbin:/usr/bin/samtools-1.9:/usr/bin/sratoolkit.2.10.7-ubuntu64/bin:${PATH}"
@@ -6,10 +6,18 @@ ENV PATH="/bin:/sbin:/usr/bin/samtools-1.9:/usr/bin/sratoolkit.2.10.7-ubuntu64/b
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get dist-upgrade
-RUN apt-get -y install unzip libsqlite3-dev libbz2-dev libssl-dev python python-dev  liblzma-dev \
-    python-pip git libxml2-dev software-properties-common wget tree vim sed make libncurses5-dev libncursesw5-dev\
-    subversion g++ gcc gfortran libcurl4-openssl-dev curl zlib1g-dev build-essential libffi-dev  python-lzo \
-    libxml-libxml-perl jq
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install unzip libsqlite3-dev libbz2-dev libssl-dev python python-dev  liblzma-dev \
+     git libxml2-dev software-properties-common wget tree vim sed make libncurses5-dev libncursesw5-dev\
+    subversion g++ gcc gfortran libcurl4-openssl-dev curl zlib1g-dev build-essential libffi-dev  \
+    libxml-libxml-perl jq pip
+
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc
 
 ### SRA-toolkit
 RUN mkdir -p /data /project /nl /share
@@ -20,8 +28,7 @@ RUN cd /usr/bin && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.7/sratoo
 ### S3CMD
 RUN apt-get -y upgrade
 RUN apt-get -y install python-setuptools
-RUN pip install python-dateutil==2.2
-RUN pip install s3cmd==1.6.0
+RUN pip install s3cmd
 RUN apt-get -y autoremove
 
 ### Samtools
@@ -29,7 +36,12 @@ RUN cd /usr/bin && wget https://github.com/samtools/samtools/releases/download/1
     tar -vxjf samtools-1.9.tar.bz2 && cd samtools-1.9 && make
 
 ### AWS CLI
-RUN pip install awscli==1.16.170
+RUN apt-get update && apt-get install -y gcc unzip
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN aws --version
+
 
 ### gcloud gsutils
 RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
