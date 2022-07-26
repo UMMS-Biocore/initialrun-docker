@@ -14,7 +14,7 @@ RUN apt-get -y install unzip libsqlite3-dev libbz2-dev libssl-dev python python-
 ### SRA-toolkit
 RUN mkdir -p /data /project /nl /share
 RUN cd /usr/bin && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.7/sratoolkit.2.10.7-ubuntu64.tar.gz && \ 
-    tar -xvzf sratoolkit.2.10.7-ubuntu64.tar.gz
+    tar -xvzf sratoolkit.2.10.7-ubuntu64.tar.gz 
 
      
 ### S3CMD
