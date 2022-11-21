@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 MAINTAINER Onur Yukselen <onur.yukselen@umassmed.edu>
 
-ENV PATH="/bin:/sbin:/usr/bin/samtools-1.9:/usr/bin/sratoolkit.2.10.7-ubuntu64/bin:${PATH}"
+ENV PATH="/bin:/sbin:/usr/bin/samtools-1.9:/usr/bin/sratoolkit.2.11.3-ubuntu64/bin:${PATH}"
 
 RUN apt-get update
 RUN apt-get -y upgrade
@@ -21,8 +21,8 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
 
 ### SRA-toolkit
 RUN mkdir -p /data /project /nl /share
-RUN cd /usr/bin && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.7/sratoolkit.2.10.7-ubuntu64.tar.gz && \ 
-    tar -xvzf sratoolkit.2.10.7-ubuntu64.tar.gz 
+RUN cd /usr/bin && wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.3/sratoolkit.2.11.3-ubuntu64.tar.gz && \ 
+    tar -xvzf sratoolkit.2.11.3-ubuntu64.tar.gz 
 
      
 ### S3CMD
